@@ -1,7 +1,13 @@
 # datetime 介绍
-定义一个日期时间对象，用于方便前端使用
+定义一个日期时间对象，用于方便前端像写C#语言一样使用
+## 安装
+```
+$ npm install -S xdatetime
+```
 ## 使用
 ```
+import DateTime from 'xdatetime';
+
 new DateTime();
 new DateTime(new Date());
 new DateTime(2019, 12, 12);
