@@ -22,8 +22,12 @@ declare class DateTime {
     getMinutes(): number;
     getSeconds(): number;
     dayOfWeek(): number;
+    dayOfYear(): number;
+    weekOfYear(): number;
+    daysOfMonth(): number;
     static now(): DateTime;
     static today(): DateTime;
+    static daysInMonth(): number;
 }
 
 export = DateTime;

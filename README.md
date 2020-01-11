@@ -28,10 +28,14 @@ new DateTime().getHours();
 new DateTime().getMinutes();
 new DateTime().getSeconds();
 new DateTime().dayOfWeek();
+new DateTime().dayOfYear();
+new DateTime().weekOfYear();
+new DateTime().daysOfMonth();
 new DateTime().instanceOfDate;
+new DateTime().compareTo();
 DateTime.now().toString();
 DateTime.today().toString();
-
+DateTime.daysInMonth();
 ```
 ## 方法介绍
 ```
@@ -126,4 +130,30 @@ weekOfYear(): number;
  * 获取当前月的天数
  */
 daysOfMonth(): number;
+
+/**
+  * 当前的Date类型内置对象
+  */
+instanceOfDate: Date;
+
+/**
+  * 和另外一个日期对象比较，是否相同日期
+  * @param compareDate
+  */
+compareTo(compareDate: DateTime): boolean;
+
+/**
+  * 今天
+  */
+static today(): DateTime;
+
+/**
+  * 当前时间
+  */
+static now(): DateTime;
+
+/**
+  * 获取某年某月的天数
+  */
+static daysInMonth(year: number, month: number): number;
 ```

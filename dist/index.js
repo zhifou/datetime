@@ -29,7 +29,7 @@ var DateTime = /** @class */ (function () {
                 this._date = new Date(year);
             }
             else {
-                console.log(typeof (year));
+                // console.log(typeof(year));
                 switch (typeof (year)) {
                     case 'number':
                         var _month = month == null ? 1 : month;
@@ -89,21 +89,57 @@ var DateTime = /** @class */ (function () {
      * 获取该实例所表示的日期是一年的第几天
      */
     DateTime.prototype.dayOfYear = function () {
-        // 暂时未实现
-        return 0;
+        var currentYear = this.getYears();
+        // 今天减今年的第一天（xxxx年01月01日）
+        var hasTimestamp = new Date().getTime() - new Date(currentYear, 0, 1).getTime();
+        // 86400000 = 24 * 60 * 60 * 1000
+        var hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
+        return hasDays;
     };
     /**
      * 获取该实例所表示的日期所在一年中的第几周
      */
     DateTime.prototype.weekOfYear = function () {
-        // 暂时未实现
-        return 0;
+        var firstDay = new Date(this.getYears(), 0, 1);
+        var dayOfWeek = firstDay.getDay();
+        var spendDay = 1;
+        if (dayOfWeek != 0) {
+            spendDay = 7 - dayOfWeek + 1;
+        }
+        firstDay = new Date(this.getYears(), 0, 1 + spendDay);
+        var d = Math.ceil((this.instanceOfDate.valueOf() - firstDay.valueOf()) / 86400000);
+        var result = Math.ceil(d / 7);
+        return result + 1;
     };
     /**
      * 获取当前月的天数
      */
     DateTime.prototype.daysOfMonth = function () {
-        // 暂时未实现
+        var year = this.getYears();
+        switch (this.getMonths()) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                // 闰年判断
+                if (((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0)) {
+                    return 29;
+                }
+                else {
+                    return 28;
+                }
+        }
+        // 默认31
         return 31;
     };
     /**
@@ -215,8 +251,7 @@ var DateTime = /** @class */ (function () {
      * @param compareDate
      */
     DateTime.prototype.compareTo = function (compareDate) {
-        // 待开发
-        return true;
+        return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
     };
     /**
      * 今天
@@ -240,7 +275,30 @@ var DateTime = /** @class */ (function () {
      * 获取某年某月的天数
      */
     DateTime.daysInMonth = function (year, month) {
-        // 暂时未实现
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                // 闰年判断
+                if (((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0)) {
+                    return 29;
+                }
+                else {
+                    return 28;
+                }
+        }
+        // 默认31
         return 31;
     };
     return DateTime;

@@ -99,23 +99,58 @@ export default class DateTime {
      * 获取该实例所表示的日期是一年的第几天
      */
     dayOfYear(): number {
-        // 暂时未实现
-        return 0;
+        const currentYear: number = this.getYears();
+        // 今天减今年的第一天（xxxx年01月01日）
+        const hasTimestamp: number = new Date().getTime() - new Date(currentYear, 0, 1).getTime();
+        // 86400000 = 24 * 60 * 60 * 1000
+        const hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
+        return hasDays;
     }
 
     /**
      * 获取该实例所表示的日期所在一年中的第几周
      */
     weekOfYear(): number {
-        // 暂时未实现
-        return 0;
+        let firstDay = new Date(this.getYears(), 0, 1);
+        let dayOfWeek = firstDay.getDay(); 
+        let spendDay = 1;
+        if (dayOfWeek != 0) {
+            spendDay = 7 - dayOfWeek + 1;
+        }
+        firstDay = new Date(this.getYears(), 0, 1 + spendDay);
+        let d = Math.ceil((this.instanceOfDate.valueOf() - firstDay.valueOf()) / 86400000);
+        let result = Math.ceil(d / 7);
+        return result + 1;
     }
 
     /**
      * 获取当前月的天数
      */
     daysOfMonth(): number {
-        // 暂时未实现
+        const year: number = this.getYears();
+        switch(this.getMonths()) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                // 闰年判断
+                if (((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0)) {
+                    return 29;
+                } else {
+                    return 28;
+                }
+        }
+        // 默认31
         return 31;
     }
 
@@ -235,8 +270,7 @@ export default class DateTime {
      * @param compareDate
      */
     compareTo(compareDate: DateTime): boolean {
-        // 待开发
-        return true;
+        return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
     }
 
     /**
@@ -265,7 +299,29 @@ export default class DateTime {
      * 获取某年某月的天数
      */
     static daysInMonth(year: number, month: number): number {
-        // 暂时未实现
+        switch(month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                // 闰年判断
+                if (((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0)) {
+                    return 29;
+                } else {
+                    return 28;
+                }
+        }
+        // 默认31
         return 31;
     }
 }
