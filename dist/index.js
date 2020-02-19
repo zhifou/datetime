@@ -91,7 +91,7 @@ var DateTime = /** @class */ (function () {
     DateTime.prototype.dayOfYear = function () {
         var currentYear = this.getYears();
         // 今天减今年的第一天（xxxx年01月01日）
-        var hasTimestamp = new Date().getTime() - new Date(currentYear, 0, 1).getTime();
+        var hasTimestamp = this._date.getTime() - new Date(currentYear, 0, 1).getTime();
         // 86400000 = 24 * 60 * 60 * 1000
         var hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
         return hasDays;
@@ -252,6 +252,16 @@ var DateTime = /** @class */ (function () {
      */
     DateTime.prototype.compareTo = function (compareDate) {
         return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
+    };
+    /**
+     * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
+     * @param compareDate 比较的日期
+     * @returns 返回一个正整数，不关心谁大
+     */
+    DateTime.prototype.diffDays = function (compareDate) {
+        var diff = Math.abs(this.instanceOfDate.getTime() - compareDate.instanceOfDate.getTime());
+        var result = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
+        return result;
     };
     /**
      * 今天

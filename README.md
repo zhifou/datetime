@@ -1,5 +1,5 @@
 # datetime 介绍
-定义一个日期时间的对象，用于方便前端像写C#语言一样使用
+定义一个日期时间对象，用于方便前端像写C#语言一样使用
 ## 安装
 ```
 $ npm install -S xdatetime
@@ -33,6 +33,7 @@ new DateTime().weekOfYear();
 new DateTime().daysOfMonth();
 new DateTime().instanceOfDate;
 new DateTime().compareTo();
+new DateTime().diffDays();
 DateTime.now().toString();
 DateTime.today().toString();
 DateTime.daysInMonth();
@@ -141,6 +142,13 @@ instanceOfDate: Date;
   * @param compareDate
   */
 compareTo(compareDate: DateTime): boolean;
+
+/**
+  * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
+  * @param compareDate 比较的日期
+  * @returns 返回一个正整数，不关心谁大
+  */
+diffDays(compareDate: DateTime): number;
 
 /**
   * 今天

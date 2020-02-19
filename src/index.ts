@@ -101,7 +101,7 @@ export default class DateTime {
     dayOfYear(): number {
         const currentYear: number = this.getYears();
         // 今天减今年的第一天（xxxx年01月01日）
-        const hasTimestamp: number = new Date().getTime() - new Date(currentYear, 0, 1).getTime();
+        const hasTimestamp: number = this._date.getTime() - new Date(currentYear, 0, 1).getTime();
         // 86400000 = 24 * 60 * 60 * 1000
         const hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
         return hasDays;
@@ -271,6 +271,17 @@ export default class DateTime {
      */
     compareTo(compareDate: DateTime): boolean {
         return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
+    }
+
+    /**
+     * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
+     * @param compareDate 比较的日期
+     * @returns 返回一个正整数，不关心谁大
+     */
+    diffDays(compareDate: DateTime): number {
+        let diff: number = Math.abs(this.instanceOfDate.getTime() - compareDate.instanceOfDate.getTime());
+        let result = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
+        return result;
     }
 
     /**
