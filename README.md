@@ -165,3 +165,8 @@ static now(): DateTime;
   */
 static daysInMonth(year: number, month: number): number;
 ```
+
+## 链接
+- **Github源码** ：[https://github.com/packjs/datetime][1]
+
+[1]: https://github.com/packjs/datetime
