@@ -170,3 +170,4 @@ static daysInMonth(year: number, month: number): number;
 - **Github源码** ：[https://github.com/zhifou/datetime][1]
 
 [1]: https://github.com/zhifou/datetime
+[2]: https://github.com/zhifou/proofs
