@@ -1,6 +1,6 @@
 {
   "name": "xdatetime",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "通过TS实现对Date对象的功能扩展，类似C#语言的DateTime对象",
   "main": "dist/index.js",
   "typing": "index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/packjs/datetime.git"
+    "url": "https://github.com/zhifou/datetime.git"
   },
   "keywords": [
     "date",
