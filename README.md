@@ -167,6 +167,6 @@ static daysInMonth(year: number, month: number): number;
 ```
 
 ## 链接
-- **Github源码** ：[https://github.com/packjs/datetime][1]
+- **Github源码** ：[https://github.com/zhifou/datetime][1]
 
-[1]: https://github.com/packjs/datetime
+[1]: https://github.com/zhifou/datetime
