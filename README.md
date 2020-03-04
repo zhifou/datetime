@@ -151,6 +151,12 @@ compareTo(compareDate: DateTime): boolean;
 diffDays(compareDate: DateTime): number;
 
 /**
+  * 获取时间戳，单位：毫秒
+  * @return 返回一个正整数，单位：毫秒
+  */
+getTime(): number;
+
+/**
   * 今天
   */
 static today(): DateTime;

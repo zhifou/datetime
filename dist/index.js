@@ -249,6 +249,7 @@ var DateTime = /** @class */ (function () {
     /**
      * 和另外一个日期对象比较，是否相同日期
      * @param compareDate
+     * @return 返回true或false
      */
     DateTime.prototype.compareTo = function (compareDate) {
         return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
@@ -256,12 +257,19 @@ var DateTime = /** @class */ (function () {
     /**
      * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
      * @param compareDate 比较的日期
-     * @returns 返回一个正整数，不关心谁大
+     * @return 返回一个正整数，不关心谁大
      */
     DateTime.prototype.diffDays = function (compareDate) {
         var diff = Math.abs(this.instanceOfDate.getTime() - compareDate.instanceOfDate.getTime());
         var result = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
         return result;
+    };
+    /**
+     * 获取时间戳，单位：毫秒
+     * @return 返回一个正整数，单位：毫秒
+     */
+    DateTime.prototype.getTime = function () {
+        return this._date.getTime();
     };
     /**
      * 今天
