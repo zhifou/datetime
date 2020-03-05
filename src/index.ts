@@ -103,7 +103,7 @@ export default class DateTime {
         // 今天减今年的第一天（xxxx年01月01日）
         const hasTimestamp: number = this._date.getTime() - new Date(currentYear, 0, 1).getTime();
         // 86400000 = 24 * 60 * 60 * 1000
-        const hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
+        const hasDays = Math.ceil(hasTimestamp / 86400000);
         return hasDays;
     }
 

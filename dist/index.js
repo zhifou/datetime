@@ -93,7 +93,7 @@ var DateTime = /** @class */ (function () {
         // 今天减今年的第一天（xxxx年01月01日）
         var hasTimestamp = this._date.getTime() - new Date(currentYear, 0, 1).getTime();
         // 86400000 = 24 * 60 * 60 * 1000
-        var hasDays = Math.ceil(hasTimestamp / 86400000) + 1;
+        var hasDays = Math.ceil(hasTimestamp / 86400000);
         return hasDays;
     };
     /**
