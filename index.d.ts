@@ -13,12 +13,20 @@ declare class DateTime {
     constructor();
     /**
      * 构造函数
+     * @param value 毫米数|日期字符串 yyyy-MM-dd|日期类实例
      */
     constructor(value: number|string|Date);
     /**
      * 构造函数
+     * @param year 年
+     * @param month 月
+     * @param day 日
+     * @param hours 小时
+     * @param minutes 分钟
+     * @param seconds 秒
+     * @param milliseconds 毫秒
      */
-    constructor(year: number, month: number, day?: number, hour?: number, minute?: number, second?: number);
+    constructor(year: number, month: number, day?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number);
     
     /**
      * 当前的Date类型内置对象
@@ -68,6 +76,12 @@ declare class DateTime {
     addSeconds(num: number): DateTime;
 
     /**
+     * 增加毫秒数，构造一个新的日期
+     * @param num 毫秒数数量
+     */
+    addMilliseconds(num: number): DateTime;
+
+    /**
      * 获取年份
      */
     getYears(): number;
@@ -96,6 +110,11 @@ declare class DateTime {
      * 获取秒数
      */
     getSeconds(): number;
+
+    /**
+     * 获取毫秒秒数
+     */
+    getMilliseconds(): number;
 
     /**
      * 可返回一周（0~6）的某一天的数字。注: 星期天为 0, 星期一为 1, 以此类推。

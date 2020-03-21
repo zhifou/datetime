@@ -7,15 +7,15 @@ export default class DateTime {
 
     /**
      * 构造函数
-     * @param year
-     * @param month
-     * @param day
-     * @param hour
-     * @param minute
-     * @param second
-     * @param ms
+     * @param year 年
+     * @param month 月
+     * @param day 日
+     * @param hours 小时
+     * @param minutes 分钟
+     * @param seconds 秒
+     * @param milliseconds 毫秒
      */
-    public constructor(year?: number|string|Date, month?: number, day?: number, hour?: number, minute?: number, second?: number) {
+    public constructor(year?: number|string|Date, month?: number, day?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number) {
 
         if (!year) {
             this._date = new Date();
@@ -27,7 +27,7 @@ export default class DateTime {
                 switch (typeof(year)) {
                     case 'number':
                         let _month: number = month == null ? 1 : month;
-                        this._date = new Date(year, _month - 1, day || 1, hour || 0, minute || 0, second || 0);
+                        this._date = new Date(year, _month - 1, day || 1, hours || 0, minutes || 0, seconds || 0, milliseconds || 0);
                         break;
                     default:
                         this._date = new Date(year);
@@ -86,6 +86,13 @@ export default class DateTime {
      */
     getSeconds(): number {
         return this._date.getSeconds();
+    }
+
+    /**
+     * 获取毫秒秒数
+     */
+    getMilliseconds(): number {
+        return this._date.getMilliseconds();
     }
 
     /**
@@ -156,7 +163,7 @@ export default class DateTime {
 
     /**
      * 格式化日期
-     * @param format 格式化字符串，yyyy-代表年，MM-代表月，dd-代表日，hh-代表小时，mm-代表分钟，ss-代表秒数 -是可替换字符
+     * @param format 格式化字符串，yyyy-代表年，MM-代表月，dd-代表日，hh-代表小时，mm-代表分钟，ss-代表秒数，fff-代表3位毫秒数 -是可替换字符
      */
     toString(format?: string): string {
         format = format || 'yyyy-MM-dd';
@@ -167,9 +174,10 @@ export default class DateTime {
             d: this.getDays(),
             h: this.getHours(),
             m: this.getMinutes(),
-            s: this.getSeconds()
+            s: this.getSeconds(),
+            f: this.getMilliseconds()
         };
-        return format.replace(/(y+|M+|d+|h+|m+|s+)/g, (v) => {
+        return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, (v) => {
             return ((v.length > 1 ? "0" : "") + eval('z. ' + v.slice(-1)))
                 .slice(-(v.length > 2 ? v.length : 2));
         });
@@ -184,10 +192,11 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths();
         let day: number = this.getDays();
-        let hour: number = this.getHours();
-        let minute: number = this.getMinutes();
-        let second: number = this.getSeconds();
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -199,10 +208,11 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths() + num;
         let day: number = this.getDays();
-        let hour: number = this.getHours();
-        let minute: number = this.getMinutes();
-        let second: number = this.getSeconds();
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -214,10 +224,11 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths();
         let day: number = this.getDays() + num;
-        let hour: number = this.getHours();
-        let minute: number = this.getMinutes();
-        let second: number = this.getSeconds();
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -229,10 +240,11 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths();
         let day: number = this.getDays();
-        let hour: number = this.getHours() + num;
-        let minute: number = this.getMinutes();
-        let second: number = this.getSeconds();
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours() + num;
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -244,10 +256,11 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths();
         let day: number = this.getDays();
-        let hour: number = this.getHours();
-        let minute: number = this.getMinutes() + num;
-        let second: number = this.getSeconds();
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes() + num;
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -259,10 +272,27 @@ export default class DateTime {
         year = year > 0 ? year : 1;
         let month: number = this.getMonths();
         let day: number = this.getDays();
-        let hour: number = this.getHours();
-        let minute: number = this.getMinutes();
-        let second: number = this.getSeconds() + num;
-        return new DateTime(year, month, day, hour, minute, second);
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds() + num;
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+    }
+
+    /**
+     * 增加毫秒数，构造一个新的日期
+     * @param num 毫秒数数量
+     */
+    addMilliseconds(num: number): DateTime {
+        let year: number = this.getYears();
+        year = year > 0 ? year : 1;
+        let month: number = this.getMonths();
+        let day: number = this.getDays();
+        let hours: number = this.getHours();
+        let minutes: number = this.getMinutes();
+        let seconds: number = this.getSeconds();
+        let milliseconds: number = this.getMilliseconds() + num;
+        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -271,7 +301,7 @@ export default class DateTime {
      * @return 返回true或false
      */
     compareTo(compareDate: DateTime): boolean {
-        return this.toString('yyyy-MM-dd hh:mm:ss') === compareDate.toString('yyyy-MM-dd hh:mm:ss');
+        return this.toString('yyyy-MM-dd hh:mm:ss.fff') === compareDate.toString('yyyy-MM-dd hh:mm:ss.fff');
     }
 
     /**
@@ -310,7 +340,7 @@ export default class DateTime {
     static now(): DateTime {
         let date = new Date();
 
-        let dt = new DateTime(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+        let dt = new DateTime(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
         // console.log(167, date.getFullYear(), date.getMonth() + 1, date.getDate(), dt);
         return dt;
     }
