@@ -21,12 +21,14 @@ new DateTime().addDays(1).toString();
 new DateTime().addHours(1).toString();
 new DateTime().addMinutes(1).toString();
 new DateTime().addSeconds(1).toString();
+new DateTime().addMilliseconds(123);
 new DateTime().getYears();
 new DateTime().getMonths();
 new DateTime().getDays();
 new DateTime().getHours();
 new DateTime().getMinutes();
 new DateTime().getSeconds();
+new DateTime().getMilliseconds();
 new DateTime().dayOfWeek();
 new DateTime().dayOfYear();
 new DateTime().weekOfYear();
@@ -83,6 +85,12 @@ addMinutes(num: number): DateTime;
 addSeconds(num: number): DateTime;
 
 /**
+  * 增加毫秒数，构造一个新的日期
+  * @param num 毫秒数数量
+  */
+addMilliseconds(num: number): DateTime;
+
+/**
  * 获取年份
  */
 getYears(): number;
@@ -111,6 +119,11 @@ getMinutes(): number;
  * 获取秒数
  */
 getSeconds(): number;
+
+/**
+  * 获取毫秒秒数
+  */
+getMilliseconds(): number;
 
 /**
  * 可返回一周（0~6）的某一天的数字。注: 星期天为 0, 星期一为 1, 以此类推。
