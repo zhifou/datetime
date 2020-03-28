@@ -181,7 +181,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**
@@ -196,7 +196,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**
@@ -211,7 +211,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**
@@ -226,7 +226,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours() + num;
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**
@@ -241,7 +241,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours();
         var minutes = this.getMinutes() + num;
         var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**
@@ -256,7 +256,7 @@ var DateTime = /** @class */ (function () {
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds() + num;
-        var milliseconds = this.getMilliseconds() + num;
+        var milliseconds = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     };
     /**

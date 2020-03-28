@@ -14,3 +14,4 @@ var dt1 = dt.addMilliseconds(123);
 var dt2 = new index_1["default"]();
 console.log(dt1.toString('yyyy-MM-dd hh:mm:ss.ff'));
 console.log(dt1.compareTo(dt2));
+console.log(new index_1["default"]('2020-03-03').addDays(-1));

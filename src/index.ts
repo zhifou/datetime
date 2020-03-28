@@ -195,7 +195,7 @@ export default class DateTime {
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -211,7 +211,7 @@ export default class DateTime {
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -227,7 +227,7 @@ export default class DateTime {
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -243,7 +243,7 @@ export default class DateTime {
         let hours: number = this.getHours() + num;
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -259,7 +259,7 @@ export default class DateTime {
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes() + num;
         let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -275,7 +275,7 @@ export default class DateTime {
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds() + num;
-        let milliseconds: number = this.getMilliseconds() + num;
+        let milliseconds: number = this.getMilliseconds();
         return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
     }
 

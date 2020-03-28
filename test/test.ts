@@ -13,3 +13,4 @@ const dt1: DateTime = dt.addMilliseconds(123);
 const dt2: DateTime = new DateTime();
 console.log(dt1.toString('yyyy-MM-dd hh:mm:ss.ff'));
 console.log(dt1.compareTo(dt2));
+console.log(new DateTime('2020-03-03').addDays(-1));
