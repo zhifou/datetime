@@ -204,75 +204,45 @@ var DateTime = /** @class */ (function () {
      * @param num 天数量
      */
     DateTime.prototype.addDays = function (num) {
-        var year = this.getYears();
-        year = year > 0 ? year : 1;
-        var month = this.getMonths();
-        var day = this.getDays() + num;
-        var hours = this.getHours();
-        var minutes = this.getMinutes();
-        var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        var addMillis = num * 24 * 60 * 60 * 1000;
+        var time = this.getTime();
+        return new DateTime(time + addMillis);
     };
     /**
      * 增加小时，构造一个新的日期
      * @param num 小时数量
      */
     DateTime.prototype.addHours = function (num) {
-        var year = this.getYears();
-        year = year > 0 ? year : 1;
-        var month = this.getMonths();
-        var day = this.getDays();
-        var hours = this.getHours() + num;
-        var minutes = this.getMinutes();
-        var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        var addMillis = num * 60 * 60 * 1000;
+        var time = this.getTime();
+        return new DateTime(time + addMillis);
     };
     /**
      * 增加分钟，构造一个新的日期
      * @param num 分钟数量
      */
     DateTime.prototype.addMinutes = function (num) {
-        var year = this.getYears();
-        year = year > 0 ? year : 1;
-        var month = this.getMonths();
-        var day = this.getDays();
-        var hours = this.getHours();
-        var minutes = this.getMinutes() + num;
-        var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        var addMillis = num * 60 * 1000;
+        var time = this.getTime();
+        return new DateTime(time + addMillis);
     };
     /**
      * 增加秒数，构造一个新的日期
      * @param num 秒数数量
      */
     DateTime.prototype.addSeconds = function (num) {
-        var year = this.getYears();
-        year = year > 0 ? year : 1;
-        var month = this.getMonths();
-        var day = this.getDays();
-        var hours = this.getHours();
-        var minutes = this.getMinutes();
-        var seconds = this.getSeconds() + num;
-        var milliseconds = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        var addMillis = num * 1000;
+        var time = this.getTime();
+        return new DateTime(time + addMillis);
     };
     /**
      * 增加毫秒数，构造一个新的日期
      * @param num 毫秒数数量
      */
     DateTime.prototype.addMilliseconds = function (num) {
-        var year = this.getYears();
-        year = year > 0 ? year : 1;
-        var month = this.getMonths();
-        var day = this.getDays();
-        var hours = this.getHours();
-        var minutes = this.getMinutes();
-        var seconds = this.getSeconds();
-        var milliseconds = this.getMilliseconds() + num;
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        var addMillis = num;
+        var time = this.getTime();
+        return new DateTime(time + addMillis);
     };
     /**
      * 和另外一个日期对象比较，是否相同日期

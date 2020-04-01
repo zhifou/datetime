@@ -220,15 +220,9 @@ export default class DateTime {
      * @param num 天数量
      */
     addDays(num: number): DateTime {
-        let year: number = this.getYears();
-        year = year > 0 ? year : 1;
-        let month: number = this.getMonths();
-        let day: number = this.getDays() + num;
-        let hours: number = this.getHours();
-        let minutes: number = this.getMinutes();
-        let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        let addMillis: number = num * 24 * 60 * 60 * 1000;
+        let time: number = this.getTime();
+        return new DateTime(time + addMillis);
     }
 
     /**
@@ -236,15 +230,9 @@ export default class DateTime {
      * @param num 小时数量
      */
     addHours(num: number): DateTime {
-        let year: number = this.getYears();
-        year = year > 0 ? year : 1;
-        let month: number = this.getMonths();
-        let day: number = this.getDays();
-        let hours: number = this.getHours() + num;
-        let minutes: number = this.getMinutes();
-        let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        let addMillis: number = num * 60 * 60 * 1000;
+        let time: number = this.getTime();
+        return new DateTime(time + addMillis);
     }
 
     /**
@@ -252,15 +240,9 @@ export default class DateTime {
      * @param num 分钟数量
      */
     addMinutes(num: number): DateTime {
-        let year: number = this.getYears();
-        year = year > 0 ? year : 1;
-        let month: number = this.getMonths();
-        let day: number = this.getDays();
-        let hours: number = this.getHours();
-        let minutes: number = this.getMinutes() + num;
-        let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        let addMillis: number = num * 60 * 1000;
+        let time: number = this.getTime();
+        return new DateTime(time + addMillis);
     }
 
     /**
@@ -268,15 +250,9 @@ export default class DateTime {
      * @param num 秒数数量
      */
     addSeconds(num: number): DateTime {
-        let year: number = this.getYears();
-        year = year > 0 ? year : 1;
-        let month: number = this.getMonths();
-        let day: number = this.getDays();
-        let hours: number = this.getHours();
-        let minutes: number = this.getMinutes();
-        let seconds: number = this.getSeconds() + num;
-        let milliseconds: number = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        let addMillis: number = num * 1000;
+        let time: number = this.getTime();
+        return new DateTime(time + addMillis);
     }
 
     /**
@@ -284,15 +260,9 @@ export default class DateTime {
      * @param num 毫秒数数量
      */
     addMilliseconds(num: number): DateTime {
-        let year: number = this.getYears();
-        year = year > 0 ? year : 1;
-        let month: number = this.getMonths();
-        let day: number = this.getDays();
-        let hours: number = this.getHours();
-        let minutes: number = this.getMinutes();
-        let seconds: number = this.getSeconds();
-        let milliseconds: number = this.getMilliseconds() + num;
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        let addMillis: number = num;
+        let time: number = this.getTime();
+        return new DateTime(time + addMillis);
     }
 
     /**

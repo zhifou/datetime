@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var index_1 = require("../dist/index");
+var index_1 = require("../src/index");
 console.log(new index_1["default"]().addDays(1));
 console.log(new index_1["default"]().diffDays(new index_1["default"](2020, 2, 10)));
 console.log(new index_1["default"]().dayOfYear());
@@ -16,3 +16,10 @@ console.log(dt1.toString('yyyy-MM-dd hh:mm:ss.ff'));
 console.log(dt1.compareTo(dt2));
 console.log(new index_1["default"]('2020-03-03').addDays(-1));
 console.log(new index_1["default"]('2020-03-03').getTime() / 1000);
+console.log(new index_1["default"](2020, 4, 1).toString());
+console.log(new index_1["default"](2020, 4, 1).addDays(-1).toString());
+console.log(new index_1["default"](2020, 4, 1).addDays(-2).toString());
+console.log(new index_1["default"](2020, 2, 29).addDays(-1).toString());
+console.log(new index_1["default"](2020, 3, 1, 0, 15, 0).addDays(10).toString('yyyy-MM-dd hh:mm:ss.yyy'));
+console.log(new index_1["default"](2020, 3, 1, 0, 0, 0).addHours(-1).toString('yyyy-MM-dd hh:mm:ss.yyy'));
+console.log(new index_1["default"](2020, 3, 31).addMonths(-1).toString('yyyy-MM-dd hh:mm:ss.yyy'));

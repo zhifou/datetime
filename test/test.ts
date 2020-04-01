@@ -1,4 +1,4 @@
-import DateTime from '../dist/index';
+import DateTime from '../src/index';
 
 console.log(new DateTime().addDays(1));
 console.log(new DateTime().diffDays(new DateTime(2020, 2, 10)));
@@ -15,3 +15,10 @@ console.log(dt1.toString('yyyy-MM-dd hh:mm:ss.ff'));
 console.log(dt1.compareTo(dt2));
 console.log(new DateTime('2020-03-03').addDays(-1));
 console.log(new DateTime('2020-03-03').getTime() / 1000);
+console.log(new DateTime(2020, 4, 1).toString());
+console.log(new DateTime(2020, 4, 1).addDays(-1).toString());
+console.log(new DateTime(2020, 4, 1).addDays(-2).toString());
+console.log(new DateTime(2020, 2, 29).addDays(-1).toString());
+console.log(new DateTime(2020, 3, 1, 0, 15, 0).addDays(10).toString('yyyy-MM-dd hh:mm:ss.yyy'));
+console.log(new DateTime(2020, 3, 1, 0, 0, 0).addHours(-1).toString('yyyy-MM-dd hh:mm:ss.yyy'));
+console.log(new DateTime(2020, 3, 31).addMonths(-1).toString('yyyy-MM-dd hh:mm:ss.yyy'));
