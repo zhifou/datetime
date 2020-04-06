@@ -1,6 +1,6 @@
 {
   "name": "xdatetime",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "通过TS实现对Date对象的功能扩展，类似C#语言的DateTime对象",
   "main": "dist/index.js",
   "typing": "index.d.ts",

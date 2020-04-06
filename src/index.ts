@@ -184,14 +184,31 @@ export default class DateTime {
     }
 
     /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    isLeapYear(): boolean {
+        return DateTime.isLeapYear(this.getYears());
+    }
+
+    /**
      * 增加年份，构建一个新的日期
      * @param num 年份数量
      */
     addYears(num: number): DateTime {
-        let year: number = this.getYears() + num;
+
+        let year: number = this.getYears();
         year = year > 0 ? year : 1;
+        year += num;
         let month: number = this.getMonths();
         let day: number = this.getDays();
+
+        if (month === 2 && day === 29) {
+            if (!DateTime.isLeapYear(year)) {
+                // 如果是平年，则取28日，为最后一天
+                day = 28;
+            }
+        } 
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
@@ -207,12 +224,46 @@ export default class DateTime {
         let year: number = this.getYears();
         year = year > 0 ? year : 1;
         let month: number = this.getMonths() + num;
+
+        let newDate: Date = new Date(year, month -1, 1);
+        let newMonth: number = newDate.getMonth() + 1;
+        let newYear: number = newDate.getFullYear();
+
         let day: number = this.getDays();
+        if (day === 31 || day === 30 || day === 29) {
+            let day31: number[] = [1, 3, 5, 7, 8, 10, 12];
+            let day30: number[] = [4, 6, 9, 11];
+            let day29: number[] = [2];
+
+            if (day === 31) {
+                if (day29.includes(newMonth)) {
+                    if (DateTime.isLeapYear(newYear)) {
+                        day = 29;
+                    } else {
+                        day = 28;
+                    }
+                } else if (day30.includes(newMonth)) {
+                    day = 30;
+                }
+            } else if (day === 30) {
+                if (day29.includes(newMonth)) {
+                    if (DateTime.isLeapYear(newYear)) {
+                        day = 29;
+                    } else {
+                        day = 28;
+                    }
+                }
+            } else {
+                if (!DateTime.isLeapYear(newYear)) {
+                    day = 28;
+                }
+            }
+        }
         let hours: number = this.getHours();
         let minutes: number = this.getMinutes();
         let seconds: number = this.getSeconds();
         let milliseconds: number = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        return new DateTime(newYear, newMonth, day, hours, minutes, seconds, milliseconds);
     }
 
     /**
@@ -343,6 +394,20 @@ export default class DateTime {
         }
         // 默认31
         return 31;
+    }
+
+    /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    static isLeapYear(year: number): boolean {
+        if (year % 4 === 0 && year % 100 != 0 || year % 400 === 0) {
+            // console.log('闰年');
+            return true;
+    　　} else {
+            // console.log('平年');
+            return false;
+    　　}
     }
 }
 

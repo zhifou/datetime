@@ -40,6 +40,12 @@ declare class DateTime {
     toString(format?: string): string;
 
     /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    isLeapYear(): boolean;
+
+    /**
      * 增加年份，构建一个新的日期
      * @param num 年份数量
      */
@@ -172,6 +178,12 @@ declare class DateTime {
      * @param month 月份
      */
     static daysInMonth(year: number, month: number): number;
+
+    /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    static isLeapYear(year: number): boolean;
 }
 
 export = DateTime;

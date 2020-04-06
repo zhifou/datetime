@@ -170,14 +170,28 @@ var DateTime = /** @class */ (function () {
         });
     };
     /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    DateTime.prototype.isLeapYear = function () {
+        return DateTime.isLeapYear(this.getYears());
+    };
+    /**
      * 增加年份，构建一个新的日期
      * @param num 年份数量
      */
     DateTime.prototype.addYears = function (num) {
-        var year = this.getYears() + num;
+        var year = this.getYears();
         year = year > 0 ? year : 1;
+        year += num;
         var month = this.getMonths();
         var day = this.getDays();
+        if (month === 2 && day === 29) {
+            if (!DateTime.isLeapYear(year)) {
+                // 如果是平年，则取28日，为最后一天
+                day = 28;
+            }
+        }
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
@@ -192,12 +206,48 @@ var DateTime = /** @class */ (function () {
         var year = this.getYears();
         year = year > 0 ? year : 1;
         var month = this.getMonths() + num;
+        var newDate = new Date(year, month - 1, 1);
+        var newMonth = newDate.getMonth() + 1;
+        var newYear = newDate.getFullYear();
         var day = this.getDays();
+        if (day === 31 || day === 30 || day === 29) {
+            var day31 = [1, 3, 5, 7, 8, 10, 12];
+            var day30 = [4, 6, 9, 11];
+            var day29 = [2];
+            if (day === 31) {
+                if (day29.includes(newMonth)) {
+                    if (DateTime.isLeapYear(newYear)) {
+                        day = 29;
+                    }
+                    else {
+                        day = 28;
+                    }
+                }
+                else if (day30.includes(newMonth)) {
+                    day = 30;
+                }
+            }
+            else if (day === 30) {
+                if (day29.includes(newMonth)) {
+                    if (DateTime.isLeapYear(newYear)) {
+                        day = 29;
+                    }
+                    else {
+                        day = 28;
+                    }
+                }
+            }
+            else {
+                if (!DateTime.isLeapYear(newYear)) {
+                    day = 28;
+                }
+            }
+        }
         var hours = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
         var milliseconds = this.getMilliseconds();
-        return new DateTime(year, month, day, hours, minutes, seconds, milliseconds);
+        return new DateTime(newYear, newMonth, day, hours, minutes, seconds, milliseconds);
     };
     /**
      * 增加天数，构造一个新的日期
@@ -316,6 +366,20 @@ var DateTime = /** @class */ (function () {
         }
         // 默认31
         return 31;
+    };
+    /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    DateTime.isLeapYear = function (year) {
+        if (year % 4 === 0 && year % 100 != 0 || year % 400 === 0) {
+            // console.log('闰年');
+            return true;
+        }
+        else {
+            // console.log('平年');
+            return false;
+        }
     };
     return DateTime;
 }());
