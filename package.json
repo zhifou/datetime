@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "typing": "index.d.ts",
   "scripts": {
-    "test": "node test/test.js",
+    "test": "./node_modules/mocha/bin/mocha --reporter spec --require ts-node/register test/**/*.test.ts",
     "build": "tsc --outDir dist src/index.ts",
-    "release": "tsc && npm publish"
+    "release": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
@@ -17,16 +17,21 @@
     "date",
     "datetime",
     "xdatetime",
+    "time",
     "typescript",
     "c#",
-    "packjs"
+    "zhifou"
   ],
   "author": "zhaoyadong",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.6.2",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^12.12.6",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
     "ts-node": "^7.0.1",
-    "@types/node": "^12.12.6"
+    "typescript": "^3.6.2"
   },
   "dependencies": {},
   "engines": {

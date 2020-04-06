@@ -36,9 +36,11 @@ new DateTime().daysOfMonth();
 new DateTime().instanceOfDate;
 new DateTime().compareTo();
 new DateTime().diffDays();
+new DateTime().isLeapYear();
 DateTime.now().toString();
 DateTime.today().toString();
 DateTime.daysInMonth();
+DateTime.isLeapYear(2020);
 ```
 ## 方法介绍
 ```
@@ -47,6 +49,12 @@ DateTime.daysInMonth();
   * @param format 格式化字符串，yyyy-代表年，MM-代表月，dd-代表日，hh-代表小时，mm-代表分钟，ss-代表秒数 -是可替换字符
   */
 toString(format?: string): string;
+
+/**
+  * 判断是否为闰年
+  * @param year 年份
+  */
+isLeapYear(): boolean;
 
 /**
  * 增加年份，构建一个新的日期
@@ -183,6 +191,12 @@ static now(): DateTime;
   * 获取某年某月的天数
   */
 static daysInMonth(year: number, month: number): number;
+
+/**
+  * 判断是否为闰年
+  * @param year 年份
+  */
+static isLeapYear(year: number): boolean;
 ```
 
 ## 链接
