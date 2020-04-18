@@ -41,6 +41,7 @@ DateTime.now().toString();
 DateTime.today().toString();
 DateTime.daysInMonth();
 DateTime.isLeapYear(2020);
+DateTime.formatPassTime(new DateTime(2019, 4, 18));
 ```
 ## 方法介绍
 ```
@@ -178,6 +179,12 @@ diffDays(compareDate: DateTime): number;
 getTime(): number;
 
 /**
+  * 格式化显示距离当前日期已经过去多少时间
+  * @return 返回一个格式化的字符串名称
+  */
+formatPassTime(): string;
+
+/**
   * 今天
   */
 static today(): DateTime;
@@ -197,6 +204,13 @@ static daysInMonth(year: number, month: number): number;
   * @param year 年份
   */
 static isLeapYear(year: number): boolean;
+
+/**
+  * 格式化现在的已过时间
+  * @param  startTime {Date} 开始时间
+  * @return {String}
+  */
+static formatPassTime(startTime: DateTime | Date): string;
 ```
 
 ## 链接

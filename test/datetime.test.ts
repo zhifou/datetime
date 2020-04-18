@@ -37,6 +37,21 @@ describe('My datetime library', () => {
     expect(new DateTime(2020, 8, 31).addMonths(1).toString('yyyy-MM-dd')).to.equal('2020-09-30');
   });
 
+  it('测试DateTime.formatPassTime 是否正确 -- 距离2年前' , () => {
+    expect(new DateTime(2018, 4, 17).formatPassTime()).to.equal('2年前');
+  });
+
+  it('测试DateTime.formatPassTime 是否正确 -- 距离2年前' , () => {
+    expect(DateTime.formatPassTime(new DateTime(2018, 4, 17))).to.equal('2年前');
+  });
+
+  it('测试DateTime.formatPassTime 是否正确 -- 距离2个月前' , () => {
+    expect(new DateTime(2020, 2, 29).formatPassTime()).to.equal('2个月前');
+  });
+
+  it('测试DateTime.formatPassTime 是否正确 -- 距离2天前' , () => {
+    expect(new DateTime(2020, 4, 17).formatPassTime()).to.equal('2天前');
+  });
 });
 
 

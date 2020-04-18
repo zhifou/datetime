@@ -30,7 +30,7 @@ var DateTime = /** @class */ (function () {
             }
             else {
                 // console.log(typeof(year));
-                switch (typeof (year)) {
+                switch (typeof year) {
                     case 'number':
                         var _month = month == null ? 1 : month;
                         this._date = new Date(year, _month - 1, day || 1, hours || 0, minutes || 0, seconds || 0, milliseconds || 0);
@@ -138,7 +138,7 @@ var DateTime = /** @class */ (function () {
                 return 30;
             case 2:
                 // 闰年判断
-                if (((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0)) {
+                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
                     return 29;
                 }
                 else {
@@ -165,8 +165,7 @@ var DateTime = /** @class */ (function () {
             f: this.getMilliseconds()
         };
         return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, function (v) {
-            return ((v.length > 1 ? "0" : "") + eval('z. ' + v.slice(-1)))
-                .slice(-(v.length > 2 ? v.length : 2));
+            return ((v.length > 1 ? '0' : '') + eval('z. ' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2));
         });
     };
     /**
@@ -300,7 +299,8 @@ var DateTime = /** @class */ (function () {
      * @return 返回true或false
      */
     DateTime.prototype.compareTo = function (compareDate) {
-        return this.toString('yyyy-MM-dd hh:mm:ss.fff') === compareDate.toString('yyyy-MM-dd hh:mm:ss.fff');
+        return (this.toString('yyyy-MM-dd hh:mm:ss.fff') ===
+            compareDate.toString('yyyy-MM-dd hh:mm:ss.fff'));
     };
     /**
      * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
@@ -318,6 +318,13 @@ var DateTime = /** @class */ (function () {
      */
     DateTime.prototype.getTime = function () {
         return this._date.getTime();
+    };
+    /**
+     * 格式化显示距离当前日期已经过去多少时间
+     * @return 返回一个字符串
+     */
+    DateTime.prototype.formatPassTime = function () {
+        return DateTime.formatPassTime(this._date);
     };
     /**
      * 今天
@@ -357,7 +364,7 @@ var DateTime = /** @class */ (function () {
                 return 30;
             case 2:
                 // 闰年判断
-                if (((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0)) {
+                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
                     return 29;
                 }
                 else {
@@ -372,7 +379,7 @@ var DateTime = /** @class */ (function () {
      * @param year 年份
      */
     DateTime.isLeapYear = function (year) {
-        if (year % 4 === 0 && year % 100 != 0 || year % 400 === 0) {
+        if ((year % 4 === 0 && year % 100 != 0) || year % 400 === 0) {
             // console.log('闰年');
             return true;
         }
@@ -380,6 +387,37 @@ var DateTime = /** @class */ (function () {
             // console.log('平年');
             return false;
         }
+    };
+    /**
+     * 格式化现在的已过时间
+     * @param  startTime {Date} 开始时间
+     * @return {String}
+     */
+    DateTime.formatPassTime = function (startTime) {
+        var sTime = null;
+        if (startTime instanceof DateTime) {
+            sTime = startTime.instanceOfDate;
+        }
+        else if (startTime instanceof Date) {
+            sTime = startTime;
+        }
+        else {
+            return '';
+        }
+        var st = sTime.getTime();
+        var currentTime = new Date().getTime(), time = currentTime - st, day = Math.round(time / (1000 * 60 * 60 * 24)), hour = Math.round(time / (1000 * 60 * 60)), min = Math.round(time / (1000 * 60)), month = Math.round(day / 30), year = Math.round(month / 12);
+        if (year)
+            return year + '年前';
+        if (month)
+            return month + '个月前';
+        if (day)
+            return day + '天前';
+        if (hour)
+            return hour + '小时前';
+        if (min)
+            return min + '分钟前';
+        else
+            return '刚刚';
     };
     return DateTime;
 }());
