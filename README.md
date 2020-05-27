@@ -218,3 +218,4 @@ static formatPassTime(startTime: DateTime | Date): string;
 
 [1]: https://github.com/zhifou/datetime
 [2]: https://github.com/zhifou/proofs
+[3]: https://github.com/zhifou/request-idle-callback
