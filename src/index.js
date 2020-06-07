@@ -154,7 +154,6 @@ var DateTime = /** @class */ (function () {
      */
     DateTime.prototype.toString = function (format) {
         format = format || 'yyyy-MM-dd';
-        var i = 0;
         var z = {
             y: this.getYears(),
             M: this.getMonths(),
@@ -418,6 +417,27 @@ var DateTime = /** @class */ (function () {
             return min + '分钟前';
         else
             return '刚刚';
+    };
+    /**
+     * 格式化日期数据
+     * @param date
+     * @param format
+     */
+    DateTime.format = function (date, format) {
+        format = format || 'yyyy-MM-dd';
+        var d = (date instanceof Date) ? date : date.instanceOfDate;
+        var z = {
+            y: d.getFullYear(),
+            M: d.getMonth() + 1,
+            d: d.getDate(),
+            h: d.getHours(),
+            m: d.getMinutes(),
+            s: d.getSeconds(),
+            f: d.getMilliseconds()
+        };
+        return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, function (v) {
+            return ((v.length > 1 ? '0' : '') + eval('z. ' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2));
+        });
     };
     return DateTime;
 }());

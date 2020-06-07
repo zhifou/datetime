@@ -45,12 +45,20 @@ describe('My datetime library', () => {
     expect(DateTime.formatPassTime(new DateTime(2018, 4, 17))).to.equal('2年前');
   });
 
-  it('测试DateTime.formatPassTime 是否正确 -- 距离2个月前' , () => {
-    expect(new DateTime(2020, 2, 29).formatPassTime()).to.equal('2个月前');
+  it('测试DateTime.formatPassTime 是否正确 -- 距离3个月前' , () => {
+    expect(new DateTime(2020, 2, 29).formatPassTime()).to.equal('3个月前');
   });
 
-  it('测试DateTime.formatPassTime 是否正确 -- 距离2天前' , () => {
-    expect(new DateTime(2020, 4, 17).formatPassTime()).to.equal('2天前');
+  it('测试DateTime.formatPassTime 是否正确 -- 距离3天前' , () => {
+    expect(new DateTime(2020, 6, 5).formatPassTime()).to.equal('3天前');
+  });
+
+  it('测试DateTime.format 是否正确 -- 2020-06-08' , () => {
+    expect(DateTime.format(new DateTime(2020, 6, 8))).to.equal('2020-06-08');
+  });
+
+  it('测试DateTime.format 是否正确 -- 2020-06-08 22:30' , () => {
+    expect(DateTime.format(new DateTime(2020, 6, 8, 22, 30), 'yyyy-MM-dd hh:mm')).to.equal('2020-06-08 22:30');
   });
 });
 

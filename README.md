@@ -42,6 +42,7 @@ DateTime.today().toString();
 DateTime.daysInMonth();
 DateTime.isLeapYear(2020);
 DateTime.formatPassTime(new DateTime(2019, 4, 18));
+DateTime.format(new DateTime(2020, 6, 8, 22, 30), 'yyyy-MM-dd hh:mm')
 ```
 ## 方法介绍
 ```
@@ -211,6 +212,13 @@ static isLeapYear(year: number): boolean;
   * @return {String}
   */
 static formatPassTime(startTime: DateTime | Date): string;
+
+/**
+  * 格式化日期数据
+  * @param date 
+  * @param format 
+  */
+static format(date: DateTime | Date, format?: string): string;
 ```
 
 ## 链接

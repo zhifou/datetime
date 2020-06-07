@@ -183,8 +183,7 @@ export default class DateTime {
      */
     toString(format?: string): string {
         format = format || 'yyyy-MM-dd';
-        let i = 0;
-        let z = {
+        const z = {
             y: this.getYears(),
             M: this.getMonths(),
             d: this.getDays(),
@@ -496,5 +495,29 @@ export default class DateTime {
         if (hour) return hour + '小时前';
         if (min) return min + '分钟前';
         else return '刚刚';
+    }
+
+    /**
+     * 格式化日期数据
+     * @param date 
+     * @param format 
+     */
+    static format(date: DateTime | Date, format?: string): string {
+        format = format || 'yyyy-MM-dd';
+        const d: Date = (date instanceof Date) ? date : date.instanceOfDate;
+        const z = {
+            y: d.getFullYear(),
+            M: d.getMonth() + 1,
+            d: d.getDate(),
+            h: d.getHours(),
+            m: d.getMinutes(),
+            s: d.getSeconds(),
+            f: d.getMilliseconds(),
+        };
+        return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, (v) => {
+            return ((v.length > 1 ? '0' : '') + eval('z. ' + v.slice(-1))).slice(
+                -(v.length > 2 ? v.length : 2)
+            );
+        });
     }
 }

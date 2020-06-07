@@ -198,6 +198,12 @@ declare class DateTime {
      */
     static formatPassTime(startTime: DateTime | Date): string;
        
+    /**
+     * 格式化日期数据
+     * @param date 
+     * @param format 
+     */
+    static format(date: DateTime | Date, format?: string): string
 }
 
 export = DateTime;
