@@ -203,7 +203,7 @@ declare class DateTime {
      * @param date 
      * @param format 
      */
-    static format(date: DateTime | Date, format?: string): string
+    static format(date: DateTime | Date, format?: string): string;
 }
 
 export = DateTime;

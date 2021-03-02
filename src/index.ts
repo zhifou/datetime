@@ -3,7 +3,18 @@
  * @author zhaoyadong
  */
 
+ /**
+ * 一天的毫秒值 86400000 = 24 * 60 * 60 * 1000
+ */
+const MILLISECONDS_DAY: number = 86400000;
+
 export default class DateTime {
+
+    /**
+     * 私有Date对象，内部使用
+     */
+    private _date: Date = null;
+
     /**
      * 构造函数
      * @param year 年
@@ -14,7 +25,7 @@ export default class DateTime {
      * @param seconds 秒
      * @param milliseconds 毫秒
      */
-    public constructor(
+    constructor(
         year?: number | string | Date,
         month?: number,
         day?: number,
@@ -52,12 +63,10 @@ export default class DateTime {
         this.instanceOfDate = this._date;
     }
 
-    private _date: Date = null;
-
     /**
      * 当前的Date类型内置对象
      */
-    public readonly instanceOfDate: Date = null;
+    readonly instanceOfDate: Date = null;
 
     /**
      * 获取年份
@@ -123,8 +132,7 @@ export default class DateTime {
         // 今天减今年的第一天（xxxx年01月01日）
         const hasTimestamp: number =
             this._date.getTime() - new Date(currentYear, 0, 1).getTime();
-        // 86400000 = 24 * 60 * 60 * 1000
-        const hasDays = Math.ceil(hasTimestamp / 86400000);
+        const hasDays = Math.ceil(hasTimestamp / MILLISECONDS_DAY);
         return hasDays;
     }
 
@@ -140,7 +148,7 @@ export default class DateTime {
         }
         firstDay = new Date(this.getYears(), 0, 1 + spendDay);
         let d = Math.ceil(
-            (this.instanceOfDate.valueOf() - firstDay.valueOf()) / 86400000
+            (this.instanceOfDate.valueOf() - firstDay.valueOf()) / MILLISECONDS_DAY
         );
         let result = Math.ceil(d / 7);
         return result + 1;
@@ -424,6 +432,9 @@ export default class DateTime {
 
     /**
      * 获取某年某月的天数
+     * @param year 年份
+     * @param month 月份
+     * @return 这个月份的天数
      */
     static daysInMonth(year: number, month: number): number {
         switch (month) {
