@@ -1,3 +1,4 @@
+import { ITextOption } from './src/types';
 /**
  * @file 类方法声明
  * @author zhaoyadong
@@ -6,7 +7,7 @@
 /**
  * 日期操作类
  */ 
-declare class DateTime {
+export declare class DateTime {
     /**
      * 构造函数
      */
@@ -144,10 +145,10 @@ declare class DateTime {
 
     /**
      * 和另外一个日期对象比较，是否相同日期
-     * @param compareDate 需要比对的日期
+     * @param equalDate 需要比对的日期
      * @return 返回true或false
      */
-    compareTo(compareDate: DateTime): boolean;
+    equalTo(equalDate: DateTime): boolean;
 
     /**
      * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
@@ -183,7 +184,7 @@ declare class DateTime {
      * @param year 年份
      * @param month 月份
      */
-    static daysInMonth(year: number, month: number): number;
+    static daysOfMonth(year: number, month: number): number;
 
     /**
      * 判断是否为闰年
@@ -196,8 +197,8 @@ declare class DateTime {
      * @param  startTime {Date} 开始时间
      * @return {String}
      */
-    static formatPassTime(startTime: DateTime | Date): string;
-       
+    static formatPassTime(startTime: DateTime | Date, options?: ITextOption): string;
+
     /**
      * 格式化日期数据
      * @param date 
@@ -206,4 +207,20 @@ declare class DateTime {
     static format(date: DateTime | Date, format?: string): string;
 }
 
-export = DateTime;
+/**
+ * 文本选项对象
+ */
+export declare interface ITextOption {
+    // 年份文本描述
+    yearText?: string;
+    // 月份文本描述
+    monthText?: string;
+    // 日文本描述
+    dayText?: string;
+    // 小时文本描述
+    hourText?: string;
+    // 分钟文本描述
+    minText?: string;
+    // 秒钟文本描述
+    secondText?: string;
+}

@@ -39,7 +39,7 @@ new DateTime().diffDays();
 new DateTime().isLeapYear();
 DateTime.now().toString();
 DateTime.today().toString();
-DateTime.daysInMonth();
+DateTime.daysOfMonth();
 DateTime.isLeapYear(2020);
 DateTime.formatPassTime(new DateTime(2019, 4, 18));
 DateTime.format(new DateTime(2020, 6, 8, 22, 30), 'yyyy-MM-dd hh:mm')
@@ -198,7 +198,7 @@ static now(): DateTime;
 /**
   * 获取某年某月的天数
   */
-static daysInMonth(year: number, month: number): number;
+static daysOfMonth(year: number, month: number): number;
 
 /**
   * 判断是否为闰年
