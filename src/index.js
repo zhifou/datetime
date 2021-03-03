@@ -1,9 +1,17 @@
 "use strict";
-/**
- * @file 日期类对象
- * @author zhaoyadong
- */
 exports.__esModule = true;
+/**
+ * 一分钟的毫秒值 60000 = 60 * 1000
+ */
+var MILLISECONDS_MIN = 60000;
+/**
+ * 一小时的毫秒值 3600000 = 60 * 60 * 1000
+ */
+var MILLISECONDS_HOUR = MILLISECONDS_MIN * 60;
+/**
+ * 一天的毫秒值 86400000 = 24 * 60 * 60 * 1000
+ */
+var MILLISECONDS_DAY = MILLISECONDS_HOUR * 24;
 var DateTime = /** @class */ (function () {
     /**
      * 构造函数
@@ -16,30 +24,26 @@ var DateTime = /** @class */ (function () {
      * @param milliseconds 毫秒
      */
     function DateTime(year, month, day, hours, minutes, seconds, milliseconds) {
+        /**
+         * 内部私有的date对象
+         */
         this._date = null;
         /**
          * 当前的Date类型内置对象
          */
         this.instanceOfDate = null;
-        if (!year) {
+        if (arguments.length === 0) {
             this._date = new Date();
         }
+        else if (arguments.length === 1) {
+            // 保持new Date()参数的默认特征
+            this._date = new Date(year);
+        }
         else {
-            if (arguments.length === 1) {
-                this._date = new Date(year);
+            if (typeof year !== 'number') {
+                throw new Error('only support number type');
             }
-            else {
-                // console.log(typeof(year));
-                switch (typeof year) {
-                    case 'number':
-                        var _month = month == null ? 1 : month;
-                        this._date = new Date(year, _month - 1, day || 1, hours || 0, minutes || 0, seconds || 0, milliseconds || 0);
-                        break;
-                    default:
-                        this._date = new Date(year);
-                        break;
-                }
-            }
+            this._date = new Date(year, (month || 1) - 1, day || 1, hours || 0, minutes || 0, seconds || 0, milliseconds || 0);
         }
         this.instanceOfDate = this._date;
     }
@@ -97,23 +101,24 @@ var DateTime = /** @class */ (function () {
     DateTime.prototype.dayOfYear = function () {
         var currentYear = this.getYears();
         // 今天减今年的第一天（xxxx年01月01日）
-        var hasTimestamp = this._date.getTime() - new Date(currentYear, 0, 1).getTime();
-        // 86400000 = 24 * 60 * 60 * 1000
-        var hasDays = Math.ceil(hasTimestamp / 86400000);
-        return hasDays;
+        var hasTimestamp = new Date(currentYear, this.getMonths() - 1, this.getDays()).getTime()
+            - new Date(currentYear, 0, 1).getTime();
+        var hasDays = Math.ceil(hasTimestamp / MILLISECONDS_DAY);
+        return hasDays + 1;
     };
     /**
      * 获取该实例所表示的日期所在一年中的第几周
      */
     DateTime.prototype.weekOfYear = function () {
-        var firstDay = new Date(this.getYears(), 0, 1);
+        var currentYear = this.getYears();
+        var firstDay = new Date(currentYear, 0, 1);
         var dayOfWeek = firstDay.getDay();
         var spendDay = 1;
-        if (dayOfWeek != 0) {
+        if (dayOfWeek !== 0) {
             spendDay = 7 - dayOfWeek + 1;
         }
-        firstDay = new Date(this.getYears(), 0, 1 + spendDay);
-        var d = Math.ceil((this.instanceOfDate.valueOf() - firstDay.valueOf()) / 86400000);
+        firstDay = new Date(currentYear, 0, 1 + spendDay);
+        var d = Math.ceil((this._date.getTime() - firstDay.getTime()) / MILLISECONDS_DAY);
         var result = Math.ceil(d / 7);
         return result + 1;
     };
@@ -121,51 +126,15 @@ var DateTime = /** @class */ (function () {
      * 获取当前月的天数
      */
     DateTime.prototype.daysOfMonth = function () {
-        var year = this.getYears();
-        switch (this.getMonths()) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                return 31;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-            case 2:
-                // 闰年判断
-                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-                    return 29;
-                }
-                else {
-                    return 28;
-                }
-        }
-        // 默认31
-        return 31;
+        return DateTime.daysOfMonth(this.getYears(), this.getMonths());
     };
     /**
      * 格式化日期
-     * @param format 格式化字符串，yyyy-代表年，MM-代表月，dd-代表日，hh-代表小时，mm-代表分钟，ss-代表秒数，fff-代表3位毫秒数 -是可替换字符
+     * @param format 格式化字符串，yyyy-代表年，MM-代表月，dd-代表日，hh-代表小时，mm-代表分钟，ss-代表秒数，SSS-代表3位毫秒数 -是可替换字符
      */
     DateTime.prototype.toString = function (format) {
-        format = format || 'yyyy-MM-dd';
-        var z = {
-            y: this.getYears(),
-            M: this.getMonths(),
-            d: this.getDays(),
-            h: this.getHours(),
-            m: this.getMinutes(),
-            s: this.getSeconds(),
-            f: this.getMilliseconds()
-        };
-        return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, function (v) {
-            return ((v.length > 1 ? '0' : '') + eval('z. ' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2));
-        });
+        format = format || 'yyyy-MM-dd hh:mm:ss';
+        return DateTime.format(this, format);
     };
     /**
      * 判断是否为闰年
@@ -180,15 +149,12 @@ var DateTime = /** @class */ (function () {
      */
     DateTime.prototype.addYears = function (num) {
         var year = this.getYears();
-        year = year > 0 ? year : 1;
         year += num;
         var month = this.getMonths();
         var day = this.getDays();
-        if (month === 2 && day === 29) {
-            if (!DateTime.isLeapYear(year)) {
-                // 如果是平年，则取28日，为最后一天
-                day = 28;
-            }
+        if (month === 2 && day === 29 && !DateTime.isLeapYear(year)) {
+            // 如果是平年，则取28日，为最后一天
+            day = 28;
         }
         var hours = this.getHours();
         var minutes = this.getMinutes();
@@ -208,38 +174,9 @@ var DateTime = /** @class */ (function () {
         var newMonth = newDate.getMonth() + 1;
         var newYear = newDate.getFullYear();
         var day = this.getDays();
-        if (day === 31 || day === 30 || day === 29) {
-            var day31 = [1, 3, 5, 7, 8, 10, 12];
-            var day30 = [4, 6, 9, 11];
-            var day29 = [2];
-            if (day === 31) {
-                if (day29.includes(newMonth)) {
-                    if (DateTime.isLeapYear(newYear)) {
-                        day = 29;
-                    }
-                    else {
-                        day = 28;
-                    }
-                }
-                else if (day30.includes(newMonth)) {
-                    day = 30;
-                }
-            }
-            else if (day === 30) {
-                if (day29.includes(newMonth)) {
-                    if (DateTime.isLeapYear(newYear)) {
-                        day = 29;
-                    }
-                    else {
-                        day = 28;
-                    }
-                }
-            }
-            else {
-                if (!DateTime.isLeapYear(newYear)) {
-                    day = 28;
-                }
-            }
+        var newDay = DateTime.daysOfMonth(newYear, newMonth);
+        if (newDay < day) {
+            day = newDay;
         }
         var hours = this.getHours();
         var minutes = this.getMinutes();
@@ -252,7 +189,7 @@ var DateTime = /** @class */ (function () {
      * @param num 天数量
      */
     DateTime.prototype.addDays = function (num) {
-        var addMillis = num * 24 * 60 * 60 * 1000;
+        var addMillis = num * MILLISECONDS_DAY;
         var time = this.getTime();
         return new DateTime(time + addMillis);
     };
@@ -261,7 +198,7 @@ var DateTime = /** @class */ (function () {
      * @param num 小时数量
      */
     DateTime.prototype.addHours = function (num) {
-        var addMillis = num * 60 * 60 * 1000;
+        var addMillis = num * MILLISECONDS_HOUR;
         var time = this.getTime();
         return new DateTime(time + addMillis);
     };
@@ -293,13 +230,13 @@ var DateTime = /** @class */ (function () {
         return new DateTime(time + addMillis);
     };
     /**
-     * 和另外一个日期对象比较，是否相同日期
-     * @param compareDate
+     * 和另外一个日期比较，是否相同日期
+     * @param equalDate
      * @return 返回true或false
      */
-    DateTime.prototype.compareTo = function (compareDate) {
-        return (this.toString('yyyy-MM-dd hh:mm:ss.fff') ===
-            compareDate.toString('yyyy-MM-dd hh:mm:ss.fff'));
+    DateTime.prototype.equalTo = function (equalDate) {
+        return (this._date.getTime() ===
+            equalDate._date.getTime());
     };
     /**
      * 与一个日期对象差的天数，不足一天舍弃不计算，并且不区分正负，返回一个正整数
@@ -307,8 +244,8 @@ var DateTime = /** @class */ (function () {
      * @return 返回一个正整数，不关心谁大
      */
     DateTime.prototype.diffDays = function (compareDate) {
-        var diff = Math.abs(this.instanceOfDate.getTime() - compareDate.instanceOfDate.getTime());
-        var result = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
+        var diff = Math.abs(this._date.getTime() - compareDate._date.getTime());
+        var result = Math.floor(Math.abs(diff) / MILLISECONDS_DAY);
         return result;
     };
     /**
@@ -331,22 +268,33 @@ var DateTime = /** @class */ (function () {
     DateTime.today = function () {
         var date = new Date();
         var dt = new DateTime(date.getFullYear(), date.getMonth() + 1, date.getDate());
-        // console.log(167, date.getFullYear(), date.getMonth() + 1, date.getDate(), dt);
         return dt;
     };
     /**
      * 当前时间
      */
     DateTime.now = function () {
-        var date = new Date();
-        var dt = new DateTime(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-        // console.log(167, date.getFullYear(), date.getMonth() + 1, date.getDate(), dt);
-        return dt;
+        return new DateTime();
+    };
+    /**
+     * 判断是否为闰年
+     * @param year 年份
+     */
+    DateTime.isLeapYear = function (year) {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     /**
      * 获取某年某月的天数
+     * @param year 年份
+     * @param month 月份
+     * @return 这个月份的天数
      */
-    DateTime.daysInMonth = function (year, month) {
+    DateTime.daysOfMonth = function (year, month) {
         switch (month) {
             case 1:
             case 3:
@@ -363,7 +311,7 @@ var DateTime = /** @class */ (function () {
                 return 30;
             case 2:
                 // 闰年判断
-                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                if (DateTime.isLeapYear(year)) {
                     return 29;
                 }
                 else {
@@ -374,25 +322,14 @@ var DateTime = /** @class */ (function () {
         return 31;
     };
     /**
-     * 判断是否为闰年
-     * @param year 年份
-     */
-    DateTime.isLeapYear = function (year) {
-        if ((year % 4 === 0 && year % 100 != 0) || year % 400 === 0) {
-            // console.log('闰年');
-            return true;
-        }
-        else {
-            // console.log('平年');
-            return false;
-        }
-    };
-    /**
      * 格式化现在的已过时间
-     * @param  startTime {Date} 开始时间
-     * @return {String}
+     * @param startTime {Date} 开始时间
+     * @param options 配置选项，可空
+     *  例如：{yearText: '年前', monthText: '个月前', dayText: '天前',
+     *        hourText: '小时前', minText: '分钟前', secondText: '刚刚'}
+     * @return 格式化好的已过时间文本
      */
-    DateTime.formatPassTime = function (startTime) {
+    DateTime.formatPassTime = function (startTime, options) {
         var sTime = null;
         if (startTime instanceof DateTime) {
             sTime = startTime.instanceOfDate;
@@ -403,20 +340,27 @@ var DateTime = /** @class */ (function () {
         else {
             return '';
         }
+        options = Object.assign({
+            yearText: '年前',
+            monthText: '个月前',
+            dayText: '天前',
+            hourText: '小时前',
+            minText: '分钟前',
+            secondText: '刚刚'
+        }, options);
         var st = sTime.getTime();
-        var currentTime = new Date().getTime(), time = currentTime - st, day = Math.round(time / (1000 * 60 * 60 * 24)), hour = Math.round(time / (1000 * 60 * 60)), min = Math.round(time / (1000 * 60)), month = Math.round(day / 30), year = Math.round(month / 12);
+        var currentTime = new Date().getTime(), time = currentTime - st, min = Math.floor(time / MILLISECONDS_MIN), hour = Math.floor(time / MILLISECONDS_HOUR), day = Math.floor(time / MILLISECONDS_DAY), month = Math.floor(time / (30 * MILLISECONDS_DAY)), year = Math.floor(time / (12 * 30 * MILLISECONDS_DAY));
         if (year)
-            return year + '年前';
+            return "" + year + options.yearText;
         if (month)
-            return month + '个月前';
+            return "" + month + options.monthText;
         if (day)
-            return day + '天前';
+            return "" + day + options.dayText;
         if (hour)
-            return hour + '小时前';
+            return "" + hour + options.hourText;
         if (min)
-            return min + '分钟前';
-        else
-            return '刚刚';
+            return "" + min + options.minText;
+        return options.secondText;
     };
     /**
      * 格式化日期数据
@@ -424,20 +368,40 @@ var DateTime = /** @class */ (function () {
      * @param format
      */
     DateTime.format = function (date, format) {
-        format = format || 'yyyy-MM-dd';
+        format = format || 'yyyy-MM-dd hh:mm:ss';
         var d = (date instanceof Date) ? date : date.instanceOfDate;
-        var z = {
-            y: d.getFullYear(),
-            M: d.getMonth() + 1,
-            d: d.getDate(),
-            h: d.getHours(),
-            m: d.getMinutes(),
-            s: d.getSeconds(),
-            f: d.getMilliseconds()
+        var o = {
+            'M+': d.getMonth() + 1,
+            'd+': d.getDate(),
+            'h+': d.getHours(),
+            'm+': d.getMinutes(),
+            's+': d.getSeconds(),
+            'q+': Math.floor((d.getMonth() + 3) / 3),
+            'S+': d.getMilliseconds() // millisecond
         };
-        return format.replace(/(y+|M+|d+|h+|m+|s+|f+)/g, function (v) {
-            return ((v.length > 1 ? '0' : '') + eval('z. ' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2));
-        });
+        if (/(y+)/.test(format)) {
+            format = format.replace(RegExp.$1, (d.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp('(' + k + ')').test(format)) {
+                var formatStr = '';
+                for (var i = 1; i <= RegExp.$1.length; i++) {
+                    formatStr += '0';
+                }
+                var replaceStr = '';
+                if (RegExp.$1.length === 1) {
+                    replaceStr = o[k];
+                }
+                else {
+                    formatStr = formatStr + o[k];
+                    var index = ('' + o[k]).length;
+                    formatStr = formatStr.substr(index);
+                    replaceStr = formatStr;
+                }
+                format = format.replace(RegExp.$1, replaceStr);
+            }
+        }
+        return format;
     };
     return DateTime;
 }());
